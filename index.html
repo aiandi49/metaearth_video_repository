@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>METAEARTH — Commercials & Drone Imagery</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a96e;
+    --gold-light: #e8d5b0;
+    --black: #080808;
+    --near-black: #111111;
+    --charcoal: #1a1a1a;
+    --mid: #2c2c2c;
+    --text: #e8e4dc;
+    --muted: #888880;
+    --white: #f5f2ed;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  #main-nav {
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+    background: rgba(8,8,8,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,169,110,0.15);
+    padding: 0 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--white); }
+
+  /* ── HERO / LANDING ── */
+  #landing {
+    height: 100vh;
+    background: var(--black);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(3, 1fr);
+    opacity: 0.12; pointer-events: none;
+  }
+  .hero-grid-cell {
+    border: 1px solid var(--gold);
+    animation: pulse-grid 4s ease-in-out infinite alternate;
+  }
+  .hero-grid-cell:nth-child(3n) { animation-delay: 0.5s; }
+  .hero-grid-cell:nth-child(5n) { animation-delay: 1s; }
+  @keyframes pulse-grid {
+    from { opacity: 0.3; } to { opacity: 1; }
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    animation: fadeUp 1s ease both;
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 10vw, 9rem);
+    letter-spacing: 0.06em;
+    line-height: 0.9;
+    text-align: center;
+    color: var(--white);
+    animation: fadeUp 1s 0.15s ease both;
+  }
+  .hero-title em {
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--gold);
+  }
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--muted);
+    margin-top: 20px;
+    letter-spacing: 0.05em;
+    animation: fadeUp 1s 0.3s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(30px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  /* ── SEARCH ── */
+  .search-wrapper {
+    margin-top: 48px;
+    width: min(700px, 90vw);
+    position: relative;
+    animation: fadeUp 1s 0.45s ease both;
+    z-index: 10;
+  }
+  .search-input {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,169,110,0.4);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    padding: 16px 56px 16px 24px;
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .search-input::placeholder { color: var(--muted); }
+  .search-input:focus {
+    border-color: var(--gold);
+    background: rgba(255,255,255,0.08);
+  }
+  .search-icon {
+    position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+    color: var(--gold); pointer-events: none;
+    font-size: 1.1rem;
+  }
+  #search-results {
+    position: absolute; top: calc(100% + 8px); left: 0; right: 0;
+    background: rgba(17,17,17,0.98);
+    border: 1px solid rgba(201,169,110,0.3);
+    max-height: 320px; overflow-y: auto;
+    display: none;
+  }
+  .search-result-item {
+    padding: 12px 20px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; gap: 12px;
+    transition: background 0.2s;
+  }
+  .search-result-item:hover { background: rgba(201,169,110,0.1); }
+  .sr-cat { font-size: 0.65rem; color: var(--gold); text-transform: uppercase; letter-spacing: 0.15em; }
+  .sr-title { font-size: 0.9rem; color: var(--text); }
+
+  /* ── TAGS ── */
+  .tags-bar {
+    margin-top: 32px;
+    display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+    max-width: 900px;
+    animation: fadeUp 1s 0.6s ease both;
+  }
+  .tag-pill {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border: 1px solid rgba(201,169,110,0.35);
+    color: var(--gold-light);
+    cursor: pointer;
+    border-radius: 1px;
+    transition: all 0.25s;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .tag-pill:hover, .tag-pill.active {
+    background: var(--gold);
+    color: var(--black);
+    border-color: var(--gold);
+  }
+
+  .scroll-hint {
+    position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: var(--muted); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    animation: bob 2s ease-in-out infinite;
+  }
+  @keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+  .scroll-arrow { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); }
+
+  /* ── CATEGORY GRID (index) ── */
+  #category-index {
+    padding: 100px 40px 80px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 40px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px; background: linear-gradient(to right, rgba(201,169,110,0.4), transparent);
+  }
+
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2px;
+  }
+  .cat-card {
+    position: relative;
+    aspect-ratio: 16/10;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--charcoal);
+    border: 1px solid rgba(255,255,255,0.04);
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .cat-card:hover { transform: scale(1.01); z-index: 2; }
+  .cat-card-bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    transition: transform 0.6s ease;
+    filter: brightness(0.5) saturate(0.8);
+  }
+  .cat-card:hover .cat-card-bg { transform: scale(1.08); filter: brightness(0.65) saturate(1); }
+  .cat-card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(8,8,8,0.7));
+    pointer-events: none;
+  }
+  .cat-card-content {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 20px 22px;
+  }
+  .cat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .cat-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    line-height: 1;
+  }
+  .cat-count {
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 5px;
+  }
+  .cat-tags-mini {
+    display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;
+  }
+  .ctag {
+    font-size: 0.55rem;
+    padding: 2px 7px;
+    background: rgba(201,169,110,0.15);
+    color: var(--gold-light);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 1px;
+  }
+
+  /* ── CATEGORY PAGE ── */
+  .cat-page {
+    display: none;
+    min-height: 100vh;
+    padding-top: 64px;
+  }
+  .cat-page.active { display: block; }
+
+  .cat-hero {
+    position: relative;
+    height: clamp(340px, 55vh, 580px);
+    overflow: hidden;
+    display: flex; align-items: flex-end;
+  }
+  .cat-hero-bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    filter: brightness(0.45) saturate(0.9);
+  }
+  .cat-hero-gradient {
+    position: absolute; inset: 0;
+    pointer-events: none;
+  }
+  .cat-hero-content {
+    position: relative; z-index: 2;
+    padding: 48px 60px;
+    width: 100%;
+  }
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); cursor: pointer; border: none; background: none;
+    margin-bottom: 20px; padding: 0; font-family: 'DM Sans', sans-serif;
+    transition: gap 0.2s;
+  }
+  .back-btn:hover { gap: 12px; }
+  .cat-hero-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem;
+    line-height: 1;
+    color: rgba(201,169,110,0.2);
+    position: absolute; right: 60px; bottom: 48px;
+    font-style: italic;
+    pointer-events: none;
+  }
+  .cat-hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    letter-spacing: 0.06em;
+    color: var(--white);
+    line-height: 0.9;
+  }
+  .cat-hero-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--gold-light);
+    margin-top: 12px;
+    max-width: 500px;
+  }
+  .cat-hero-tags {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px;
+  }
+  .hero-tag {
+    font-size: 0.62rem; padding: 5px 12px;
+    border: 1px solid rgba(201,169,110,0.5);
+    color: var(--gold-light);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    border-radius: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .hero-tag:hover { background: var(--gold); color: var(--black); }
+
+  /* ── VIDEO GRID ── */
+  .videos-section {
+    padding: 60px 48px 80px;
+    max-width: 1500px; margin: 0 auto;
+  }
+  .videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+  }
+  .video-card {
+    background: var(--charcoal);
+    border: 1px solid rgba(255,255,255,0.05);
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative;
+  }
+  .video-card:hover {
+    border-color: rgba(201,169,110,0.3);
+    transform: translateY(-3px);
+  }
+  .video-wrapper {
+    position: relative;
+    padding-top: 56.25%;
+    background: var(--near-black);
+  }
+  .video-wrapper iframe {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+  }
+  .video-meta {
+    padding: 16px 18px;
+    display: flex; align-items: flex-start; justify-content: space-between;
+  }
+  .video-title {
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: var(--text);
+    letter-spacing: 0.03em;
+    text-transform: capitalize;
+  }
+  .video-idx {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    color: var(--gold);
+    flex-shrink: 0;
+    margin-left: 10px;
+  }
+
+  /* ── FEATURED FIRST VIDEO (large) ── */
+  .video-card.featured {
+    grid-column: 1 / -1;
+  }
+  .video-card.featured .video-wrapper {
+    padding-top: 42%;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 40px 60px;
+    border-top: 1px solid rgba(201,169,110,0.15);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem; letter-spacing: 0.15em; color: var(--gold);
+  }
+  .footer-copy {
+    font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em;
+  }
+
+  /* ── FILTERED HIDDEN ── */
+  .cat-card.hidden, .video-card.hidden { display: none !important; }
+
+  /* ── DIVIDER ── */
+  .gold-rule {
+    width: 60px; height: 1px; background: var(--gold);
+    margin: 32px 0;
+  }
+
+  /* ── PALETTE variations per page ── */
+  .palette-crimson  { --accent: #c0392b; --accent-light: #f5a99a; }
+  .palette-cobalt   { --accent: #2563b0; --accent-light: #93c5fd; }
+  .palette-emerald  { --accent: #16a34a; --accent-light: #86efac; }
+  .palette-violet   { --accent: #7c3aed; --accent-light: #c4b5fd; }
+  .palette-amber    { --accent: #d97706; --accent-light: #fcd34d; }
+  .palette-teal     { --accent: #0d9488; --accent-light: #99f6e4; }
+  .palette-rose     { --accent: #e11d48; --accent-light: #fda4af; }
+  .palette-indigo   { --accent: #4338ca; --accent-light: #a5b4fc; }
+  .palette-slate    { --accent: #475569; --accent-light: #cbd5e1; }
+  .palette-orange   { --accent: #ea580c; --accent-light: #fed7aa; }
+  .palette-pink     { --accent: #db2777; --accent-light: #f9a8d4; }
+  .palette-sky      { --accent: #0284c7; --accent-light: #bae6fd; }
+  .palette-lime     { --accent: #65a30d; --accent-light: #d9f99d; }
+  .palette-stone    { --accent: #78716c; --accent-light: #e7e5e4; }
+  .palette-cyan     { --accent: #0891b2; --accent-light: #a5f3fc; }
+  .palette-fuchsia  { --accent: #a21caf; --accent-light: #f0abfc; }
+
+  .cat-hero .cat-hero-gradient {
+    background: linear-gradient(to right, rgba(8,8,8,0.9) 0%, rgba(8,8,8,0.5) 60%, transparent 100%),
+                linear-gradient(to top, rgba(8,8,8,0.9) 0%, transparent 60%);
+  }
+
+  /* accent bars on cat pages */
+  .accent-bar {
+    height: 3px;
+    background: var(--accent, var(--gold));
+    margin-bottom: 0;
+  }
+
+  /* sub-category tabs */
+  .sub-tabs {
+    display: flex; gap: 0; flex-wrap: wrap;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 40px;
+  }
+  .sub-tab {
+    padding: 14px 28px;
+    font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted); cursor: pointer; border: none; background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    border-bottom: 2px solid transparent; margin-bottom: -1px;
+    transition: all 0.2s;
+  }
+  .sub-tab:hover { color: var(--text); }
+  .sub-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    #main-nav { padding: 0 20px; }
+    .cat-hero-content { padding: 30px 24px; }
+    .videos-section { padding: 40px 20px 60px; }
+    .categories-grid { grid-template-columns: 1fr 1fr; }
+    .videos-grid { grid-template-columns: 1fr; }
+    .video-card.featured .video-wrapper { padding-top: 56.25%; }
+    #category-index { padding: 80px 20px 60px; }
+    .hero-title { font-size: 3.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ NAVIGATION ═══════════ -->
+<nav id="main-nav">
+  <a class="nav-logo" onclick="showLanding()">META<span>EARTH</span></a>
+  <div style="display:flex;align-items:center;gap:24px;">
+    <span style="font-size:0.65rem;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;">Commercials & Drone Imagery</span>
+  </div>
+</nav>
+
+<!-- ═══════════ LANDING / SEARCH ═══════════ -->
+<div id="landing">
+  <div class="hero-grid">
+    <div class="hero-grid-cell"></div><div class="hero-grid-cell"></div><div class="hero-grid-cell"></div>
+    <div class="hero-grid-cell"></div><div class="hero-grid-cell"></div><div class="hero-grid-cell"></div>
+    <div class="hero-grid-cell"></div><div class="hero-grid-cell"></div><div class="hero-grid-cell"></div>
+    <div class="hero-grid-cell"></div><div class="hero-grid-cell"></div><div class="hero-grid-cell"></div>
+    <div class="hero-grid-cell"></div><div class="hero-grid-cell"></div><div class="hero-grid-cell"></div>
+  </div>
+
+  <div class="hero-eyebrow">Video Repository · Est. 2026</div>
+  <h1 class="hero-title">META<em>EARTH</em></h1>
+  <p class="hero-sub">Commercials &amp; Drone Imagery — 30 Categories · 200+ Films</p>
+
+  <div class="search-wrapper">
+    <input class="search-input" type="text" id="search-input" placeholder="Search by category, tag, or title…" oninput="doSearch(this.value)" onkeydown="searchKeydown(event)">
+    <span class="search-icon">⌕</span>
+    <div id="search-results"></div>
+  </div>
+
+  <div class="tags-bar" id="tags-bar">
+    <button class="tag-pill" onclick="filterByTag('drone')">Drone</button>
+    <button class="tag-pill" onclick="filterByTag('real estate')">Real Estate</button>
+    <button class="tag-pill" onclick="filterByTag('commercial')">Commercial</button>
+    <button class="tag-pill" onclick="filterByTag('fashion')">Fashion</button>
+    <button class="tag-pill" onclick="filterByTag('luxury')">Luxury</button>
+    <button class="tag-pill" onclick="filterByTag('aerial')">Aerial</button>
+    <button class="tag-pill" onclick="filterByTag('portrait')">Portrait</button>
+    <button class="tag-pill" onclick="filterByTag('automotive')">Automotive</button>
+    <button class="tag-pill" onclick="filterByTag('architecture')">Architecture</button>
+    <button class="tag-pill" onclick="filterByTag('food & beverage')">Food & Beverage</button>
+    <button class="tag-pill" onclick="filterByTag('lifestyle')">Lifestyle</button>
+    <button class="tag-pill" onclick="filterByTag('careers')">Careers</button>
+    <button class="tag-pill" onclick="filterByTag('land')">Land</button>
+    <button class="tag-pill" onclick="filterByTag('properties')">Properties</button>
+    <button class="tag-pill" onclick="filterByTag('agent')">Agent</button>
+    <button class="tag-pill" onclick="filterByTag('8 sec')">8 Sec</button>
+    <button class="tag-pill" onclick="filterByTag('15 sec')">15 Sec</button>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-arrow"></div>
+    <span>Explore</span>
+  </div>
+</div>
+
+<!-- ═══════════ CATEGORY INDEX ═══════════ -->
+<div id="category-index">
+  <div class="section-label">All Categories</div>
+  <div class="categories-grid" id="cat-grid">
+    <!-- cards injected by JS -->
+  </div>
+</div>
+
+<!-- ═══════════ CATEGORY PAGES ═══════════ -->
+<div id="pages-container">
+  <!-- pages injected by JS -->
+</div>
+
+<footer>
+  <div class="footer-logo">METAEARTH</div>
+  <div class="footer-copy">Commercials &amp; Drone Imagery Repository · All Rights Reserved</div>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════
+//  DATA — ALL 30 CATEGORIES WITH VIMEO IDs
+// ═══════════════════════════════════════════════════
+const CATEGORIES = [
+  {
+    id: 'athletic-complex',
+    num: '01',
+    name: 'Athletic Complex',
+    palette: 'palette-crimson',
+    tags: ['athletic','sports','drone','aerial','real estate'],
+    desc: 'High-performance athletic facilities captured from every angle.',
+    gradient: 'linear-gradient(135deg,#1a0a08,#2c1010)',
+    videos: [
+      { id: '1195138452', title: 'Athletic Complex — Running Track' },
+      { id: '1195138436', title: 'Athletic Complex — Desert' },
+    ]
+  },
+  {
+    id: 'bare-foot',
+    num: '02',
+    name: 'Bare Foot',
+    palette: 'palette-amber',
+    tags: ['lifestyle','fashion','commercial','portrait'],
+    desc: 'Grounded. Natural. Barefoot luxury in motion.',
+    gradient: 'linear-gradient(135deg,#1a1200,#2c2000)',
+    videos: [
+      { id: '1195139427', title: 'Bare Foot — Steps on Turf' },
+      { id: '1195139428', title: 'Bare Foot — Steps on Turf 2' },
+      { id: '1195139426', title: 'Bare Foot — Steps on Turf 3' },
+    ]
+  },
+  {
+    id: 'car-wash-tunnel',
+    num: '03',
+    name: 'Car Wash Tunnel Interior',
+    palette: 'palette-cobalt',
+    tags: ['commercial','automotive','cinematic','8 sec'],
+    desc: 'The unexpected beauty of the tunnel. Light, motion, transformation.',
+    gradient: 'linear-gradient(135deg,#050d1a,#0a1528)',
+    videos: [
+      { id: '1195140832', title: 'Car Wash Tunnel Interior' },
+    ]
+  },
+  {
+    id: 'cinematic-commercials',
+    num: '04',
+    name: 'Cinematic Commercials',
+    palette: 'palette-violet',
+    tags: ['commercial','8 sec','15 sec','food & beverage','lifestyle','real estate'],
+    desc: 'Short-form storytelling at its most cinematic — 8 & 15 second masterpieces.',
+    gradient: 'linear-gradient(135deg,#0d0014,#1a0028)',
+    subCategories: ['8 Seconds', '15 Seconds'],
+    videos: [
+      // 8 SEC
+      { id: '1192547732', title: 'Empire Pizza 12', subCat: '8 Seconds' },
+      { id: '1192549003', title: 'Empire Pizza 11', subCat: '8 Seconds' },
+      { id: '1192406333', title: 'Empire Pizza 10', subCat: '8 Seconds' },
+      { id: '1192406336', title: 'Empire Pizza 9', subCat: '8 Seconds' },
+      { id: '1192406335', title: 'Empire Pizza 8', subCat: '8 Seconds' },
+      { id: '1192406049', title: 'Empire Pizza 7', subCat: '8 Seconds' },
+      { id: '1192406128', title: 'Empire Pizza 6', subCat: '8 Seconds' },
+      { id: '1192406130', title: 'Empire Pizza 5', subCat: '8 Seconds' },
+      { id: '1192406129', title: 'Empire Pizza 4', subCat: '8 Seconds' },
+      { id: '1192406334', title: 'Empire Pizza 3', subCat: '8 Seconds' },
+      { id: '1195081198', title: 'Cat Walk', subCat: '8 Seconds' },
+      { id: '1195081187', title: 'Empire Pizza', subCat: '8 Seconds' },
+      { id: '1195081185', title: 'Empire Pizza 2', subCat: '8 Seconds' },
+      { id: '1195081184', title: 'Firebirds Woodfire', subCat: '8 Seconds' },
+      { id: '1195081186', title: 'La Hacienda', subCat: '8 Seconds' },
+      { id: '1195080803', title: 'La Frida', subCat: '8 Seconds' },
+      { id: '1195080782', title: 'This Is Why I Keep Coming Back', subCat: '8 Seconds' },
+      { id: '1195080783', title: 'Street Tacos', subCat: '8 Seconds' },
+      { id: '1195080784', title: 'Zio Neppe', subCat: '8 Seconds' },
+      { id: '1195080781', title: 'Ra Sushi', subCat: '8 Seconds' },
+      { id: '1195141261', title: 'Cinematic 8-Second Luxury Interior Real', subCat: '8 Seconds' },
+      { id: '1195141260', title: 'Cinematic 8-Second Luxury Real Estate', subCat: '8 Seconds' },
+      { id: '1195141263', title: 'Commercial Flex Space Interior', subCat: '8 Seconds' },
+      { id: '1195141262', title: 'Commercial Property Approaching', subCat: '8 Seconds' },
+      // 15 SEC
+      { id: '1192478892', title: 'Pizza Heaven', subCat: '15 Seconds' },
+      { id: '1192573050', title: 'Real Estate Living', subCat: '15 Seconds' },
+      { id: '1195074890', title: 'Acent on Pantano', subCat: '15 Seconds' },
+      { id: '1195074875', title: 'Apartment Living', subCat: '15 Seconds' },
+      { id: '1195079787', title: 'Ra Sushi 15', subCat: '15 Seconds' },
+      { id: '1195079786', title: 'La Frida 15', subCat: '15 Seconds' },
+      { id: '1195079788', title: 'La Hacienda 15', subCat: '15 Seconds' },
+      { id: '1195079789', title: 'Steakhouse', subCat: '15 Seconds' },
+    ]
+  },
+  {
+    id: 'clea',
+    num: '05',
+    name: 'CLEA',
+    palette: 'palette-rose',
+    tags: ['fashion','lifestyle','portrait','luxury','commercial'],
+    desc: 'CLEA — A fashion editorial in motion. Elegant, fluid, unforgettable.',
+    gradient: 'linear-gradient(135deg,#1a0008,#2c0015)',
+    subCategories: ['Chillin', 'Clothing', 'Fashion Show', 'Products'],
+    videos: [
+      { id: '1195142725', title: 'Chillin — Woman Sipping', subCat: 'Chillin' },
+      { id: '1195143378', title: 'Clothing — Clea Wearing Gown', subCat: 'Clothing' },
+      { id: '1195143326', title: 'Clothing — Clea Lying in Snow', subCat: 'Clothing' },
+      { id: '1195143334', title: 'Clothing — Clea Wearing Blazer', subCat: 'Clothing' },
+      { id: '1195143332', title: 'Clothing — Clea Black Gown Choker', subCat: 'Clothing' },
+      { id: '1195143325', title: 'Clothing — Clea Looking in Mirror', subCat: 'Clothing' },
+      { id: '1195143279', title: 'Clothing — Clea in Snow Thanking Stewart', subCat: 'Clothing' },
+      { id: '1195143223', title: 'Clothing — Clea in Beaded', subCat: 'Clothing' },
+      { id: '1195143226', title: 'Clothing — Clea in Beaded Dress', subCat: 'Clothing' },
+      { id: '1195143287', title: 'Clothing — Clea in Swimsuit', subCat: 'Clothing' },
+      { id: '1195143224', title: 'Clothing — Clea in DKNY Jacket', subCat: 'Clothing' },
+      { id: '1195143225', title: 'Clothing — Clea in Evening Gown', subCat: 'Clothing' },
+      { id: '1195145313', title: 'Fashion Show — Clea in Couture', subCat: 'Fashion Show' },
+      { id: '1195146993', title: 'Products — Clea Reclining on Satin', subCat: 'Products' },
+      { id: '1195146994', title: 'Products — Clea with Glowing Skin', subCat: 'Products' },
+      { id: '1195146988', title: 'Products — Clea Reclining in Light', subCat: 'Products' },
+      { id: '1195146986', title: 'Products — Clea Leaning', subCat: 'Products' },
+      { id: '1195149903', title: 'Products — Clea Applying Hand Cream 2', subCat: 'Products' },
+      { id: '1195149900', title: 'Products — Clea Holding Shampoo', subCat: 'Products' },
+      { id: '1195149901', title: 'Products — Clea Holding Gift', subCat: 'Products' },
+      { id: '1195149902', title: 'Products — Clea Applying Hand Cream', subCat: 'Products' },
+    ]
+  },
+  {
+    id: 'coastal-villa',
+    num: '06',
+    name: 'Coastal Villa',
+    palette: 'palette-teal',
+    tags: ['real estate','luxury','architecture','lifestyle','aerial'],
+    desc: 'Where the ocean meets architecture. Coastal living reimagined.',
+    gradient: 'linear-gradient(135deg,#001614,#002420)',
+    videos: [
+      { id: '1195149056', title: 'Coastal Villa at Sunset' },
+    ]
+  },
+  {
+    id: 'community',
+    num: '07',
+    name: 'Community',
+    palette: 'palette-lime',
+    tags: ['real estate','commercial','architecture','lifestyle'],
+    desc: 'Shared spaces, common dreams. Community captured from above and within.',
+    gradient: 'linear-gradient(135deg,#061200,#0d2000)',
+    videos: [
+      { id: '1195149357', title: 'Community Pavilion Event Plaza' },
+      { id: '1195149347', title: 'Community Garden Outdoor Classroom' },
+    ]
+  },
+  {
+    id: 'desert-blossom',
+    num: '08',
+    name: 'Desert Blossom Boutique',
+    palette: 'palette-orange',
+    tags: ['commercial','lifestyle','fashion','luxury'],
+    desc: 'Beauty blooms in the desert. Boutique elegance under sun-baked skies.',
+    gradient: 'linear-gradient(135deg,#1a0800,#2c1200)',
+    videos: [
+      { id: '1195149697', title: 'Desert Blossom Boutique Small' },
+    ]
+  },
+  {
+    id: 'eyez',
+    num: '09',
+    name: 'Eyez The Greatest',
+    palette: 'palette-indigo',
+    tags: ['luxury','lifestyle','portrait','commercial','fashion'],
+    desc: 'See the world through Eyez. Penthouse views, limo rides, yacht escapes.',
+    gradient: 'linear-gradient(135deg,#05001a,#0a0028)',
+    subCategories: ['Changes Outfits', 'Limo', 'Penthouse', 'Yacht'],
+    videos: [
+      { id: '1195223660', title: 'Eyez — Initial Scene', subCat: 'Changes Outfits' },
+      { id: '1195225219', title: 'Eyez — Limo', subCat: 'Limo' },
+      { id: '1195225218', title: 'Eyez 2 — Limo', subCat: 'Limo' },
+      { id: '1195225948', title: 'Eyez — Penthouse', subCat: 'Penthouse' },
+      { id: '1195225949', title: 'Eyez 2 — Penthouse', subCat: 'Penthouse' },
+      { id: '1195228662', title: 'Eyez — Yacht 1', subCat: 'Yacht' },
+      { id: '1195228663', title: 'Eyez — Yacht 2', subCat: 'Yacht' },
+    ]
+  },
+  {
+    id: 'fire-pit',
+    num: '10',
+    name: 'Fire Pit',
+    palette: 'palette-crimson',
+    tags: ['lifestyle','real estate','architecture','commercial'],
+    desc: 'Warmth, ambiance, gathering. The fire pit as the heart of outdoor living.',
+    gradient: 'linear-gradient(135deg,#1a0500,#2c0a00)',
+    videos: [
+      { id: '1195229132', title: 'Fire Pit in Backyard' },
+      { id: '1195229683', title: 'Fire Pit in Backyard 2' },
+    ]
+  },
+  {
+    id: 'gazebo',
+    num: '11',
+    name: 'Gazebo',
+    palette: 'palette-emerald',
+    tags: ['lifestyle','real estate','architecture','outdoor'],
+    desc: 'Open-air elegance. The gazebo as refuge, as gathering place, as art.',
+    gradient: 'linear-gradient(135deg,#001a08,#002c10)',
+    videos: [
+      { id: '1195230253', title: 'Gazebo with Outdoor Kitchen' },
+      { id: '1195230254', title: 'Gazebo with Outdoor Kitchen 2' },
+      { id: '1195230252', title: 'Gazebo with Outdoor Kitchen 3' },
+    ]
+  },
+  {
+    id: 'generate-video',
+    num: '12',
+    name: 'Generate Video From Image',
+    palette: 'palette-fuchsia',
+    tags: ['cinematic','commercial','ai','visual'],
+    desc: 'Still images brought to life. The future of visual storytelling.',
+    gradient: 'linear-gradient(135deg,#1a001a,#280028)',
+    videos: [
+      { id: '1195230680', title: 'Generate Video From Image' },
+    ]
+  },
+  {
+    id: 'luxury',
+    num: '13',
+    name: 'Luxury',
+    palette: 'palette-amber',
+    tags: ['luxury','real estate','aerial','drone','properties'],
+    desc: 'The finest estates, communities, and spaces. Luxury without compromise.',
+    gradient: 'linear-gradient(135deg,#1a1000,#2c1c00)',
+    videos: [
+      { id: '1195230874', title: 'Luxury Equestrian Estate — Aerial' },
+      { id: '1195230886', title: 'Luxury Residential Community' },
+    ]
+  },
+  {
+    id: 'matte-black-tesla',
+    num: '14',
+    name: 'Matte Black Tesla Model 3',
+    palette: 'palette-slate',
+    tags: ['automotive','commercial','luxury','cinematic'],
+    desc: 'Matte. Black. Relentless. Tesla Model 3 in its most cinematic form.',
+    gradient: 'linear-gradient(135deg,#0a0a0a,#181818)',
+    videos: [
+      { id: '1195231179', title: 'Matte Black Tesla Model 3' },
+      { id: '1195231181', title: 'Matte Black Tesla Model 3B' },
+    ]
+  },
+  {
+    id: 'office-suite',
+    num: '15',
+    name: 'Office Suite Interior Scene',
+    palette: 'palette-cobalt',
+    tags: ['commercial','real estate','architecture','careers'],
+    desc: 'Modern workspaces designed to inspire. Where ambition finds its home.',
+    gradient: 'linear-gradient(135deg,#050d1a,#0a1a28)',
+    videos: [
+      { id: '1195231402', title: 'Office Suite Interior Scene' },
+    ]
+  },
+  {
+    id: 'outdoor',
+    num: '16',
+    name: 'Outdoor',
+    palette: 'palette-emerald',
+    tags: ['lifestyle','real estate','architecture','outdoor'],
+    desc: 'Al fresco living elevated. Outdoor kitchens, grills, and open-air dining.',
+    gradient: 'linear-gradient(135deg,#001a05,#002c08)',
+    videos: [
+      { id: '1195231677', title: 'Outdoor Kitchen with Grill' },
+      { id: '1195231679', title: 'Outdoor Kitchen with Grill 2' },
+      { id: '1195231680', title: 'Outdoor Kitchen with Grill 3' },
+      { id: '1195231678', title: 'Outdoor Kitchen with Grill 4' },
+    ]
+  },
+  {
+    id: 'pool',
+    num: '17',
+    name: 'Pool',
+    palette: 'palette-sky',
+    tags: ['lifestyle','real estate','luxury','architecture'],
+    desc: 'Still water, bold design. The pool as the centerpiece of luxury living.',
+    gradient: 'linear-gradient(135deg,#001218,#001e28)',
+    videos: [
+      { id: '1195232430', title: 'Pool — Water Filling Frame' },
+      { id: '1195232455', title: 'Pool with Lounge Chairs' },
+      { id: '1195232454', title: 'Pool with Lounge Chairs 2' },
+      { id: '1195232530', title: 'Pool with Lounge Chairs 2B' },
+      { id: '1195232560', title: 'Pool with Lounge Chairs 3' },
+    ]
+  },
+  {
+    id: 'rooftop',
+    num: '18',
+    name: 'Rooftop Overlooking Desert',
+    palette: 'palette-orange',
+    tags: ['real estate','lifestyle','drone','aerial','luxury'],
+    desc: 'Above it all. Desert panoramas from the highest vantage point.',
+    gradient: 'linear-gradient(135deg,#1a0800,#2c1400)',
+    videos: [
+      { id: '1195233301', title: 'Rooftop Overlooking Desert Sunset' },
+      { id: '1195233302', title: 'Rooftop Overlooking Desert Sunset 2' },
+    ]
+  },
+  {
+    id: 'steel-rebar',
+    num: '19',
+    name: 'Steel Rebar Tied For Pool',
+    palette: 'palette-stone',
+    tags: ['construction','real estate','commercial','cinematic'],
+    desc: 'Before the water, before the luxury — the raw strength of construction.',
+    gradient: 'linear-gradient(135deg,#0f0f0f,#1c1c1c)',
+    videos: [
+      { id: '1195233587', title: 'Steel Rebar Tied for Pool' },
+    ]
+  },
+  {
+    id: 'ultra-slow',
+    num: '20',
+    name: 'Ultra Slow Push In Overhead',
+    palette: 'palette-violet',
+    tags: ['cinematic','commercial','drone','aerial'],
+    desc: 'Time suspended. The overhead angle reveals everything.',
+    gradient: 'linear-gradient(135deg,#0d0014,#180022)',
+    videos: [
+      { id: '1195233810', title: 'Ultra Slow Push in Overhead Angle' },
+    ]
+  },
+  {
+    id: 'women-influencers',
+    num: '21',
+    name: 'Women Influencers',
+    palette: 'palette-pink',
+    tags: ['lifestyle','portrait','commercial','fashion','luxury'],
+    desc: 'Authentic. Powerful. Influential. Women in their element.',
+    gradient: 'linear-gradient(135deg,#1a0010,#2c001c)',
+    videos: [
+      { id: '1195234165', title: 'Woman Says — I Love This' },
+      { id: '1195234155', title: 'Woman Says I Love This 2' },
+      { id: '1195234104', title: 'Woman in Blue Hoodie Selfie' },
+      { id: '1195234182', title: 'Woman Welcomes to 801' },
+      { id: '1195234110', title: 'Woman in Home Theater' },
+      { id: '1195234137', title: 'Woman on Lawn Luxury Real' },
+      { id: '1195234123', title: 'Woman in Motor Court' },
+    ]
+  },
+  {
+    id: 'drones',
+    num: '22',
+    name: 'Drones',
+    palette: 'palette-cyan',
+    tags: ['drone','aerial','commercial','real estate','architecture'],
+    desc: 'Eyes in the sky. Every approach, angle, and altitude captured with precision.',
+    gradient: 'linear-gradient(135deg,#00141a,#00202c)',
+    subCategories: ['Aerial Drone', 'Approach QSR', 'Approach Retail', 'Approaching Convenience', 'Approaching Urgent Care', 'Descends Desert', 'Flight Desert', 'Push Hacienda', 'Shot Arriving Office', 'Shot Arriving Porch', 'Glamping RV', 'Interior Building', 'Coffee Shop', 'Reception', 'Rising Parking', 'Starbucks'],
+    videos: [
+      { id: '1195150909', title: 'Aerial Drone — Orbit Private Estate', subCat: 'Aerial Drone' },
+      { id: '1195151383', title: 'Aerial Drone — Shot Backyard Gold', subCat: 'Aerial Drone' },
+      { id: '1195151737', title: 'Aerial Drone — Shot Backyard Gold 2', subCat: 'Aerial Drone' },
+      { id: '1195152035', title: 'Aerial Drone — Shot Backyard Outdoor', subCat: 'Aerial Drone' },
+      { id: '1195152336', title: 'Aerial Drone — Shot Backyard Outdoor 2', subCat: 'Aerial Drone' },
+      { id: '1195152804', title: 'Approach QSR Building', subCat: 'Approach QSR' },
+      { id: '1195154034', title: 'Approaching Convenience', subCat: 'Approaching Convenience' },
+      { id: '1195219679', title: 'Approaching Urgent Care', subCat: 'Approaching Urgent Care' },
+      { id: '1195220078', title: 'Descends Over Desert Hillside', subCat: 'Descends Desert' },
+      { id: '1195220535', title: 'Flight Over Desert Backyard', subCat: 'Flight Desert' },
+      { id: '1195220536', title: 'Flight Over Desert Backyard 2', subCat: 'Flight Desert' },
+      { id: '1195221329', title: 'Push Toward Hacienda Estate', subCat: 'Push Hacienda' },
+      { id: '1195221628', title: 'Shot Arriving at Office', subCat: 'Shot Arriving Office' },
+      { id: '1195221935', title: 'Shot Arriving at Porch', subCat: 'Shot Arriving Porch' },
+      { id: '1195222062', title: 'Shot Arriving Glamping RV', subCat: 'Glamping RV' },
+      { id: '1195222221', title: 'Shot Interior Building', subCat: 'Interior Building' },
+      { id: '1195222222', title: 'Shot Interior Building 2', subCat: 'Interior Building' },
+      { id: '1195222496', title: 'Shot Interior Building 1', subCat: 'Interior Building' },
+      { id: '1195222495', title: 'Shot Interior Building 1B', subCat: 'Interior Building' },
+      { id: '1195222785', title: 'Shot of Coffee Shop', subCat: 'Coffee Shop' },
+      { id: '1195222987', title: 'Shot Reception Entry Interior', subCat: 'Reception' },
+      { id: '1195223166', title: 'Shot Rising from Parking', subCat: 'Rising Parking' },
+      { id: '1195223313', title: 'Shot Starbucks Drive-Thru', subCat: 'Starbucks' },
+      { id: '1195223312', title: 'Shot Starbucks Drive-Thru 2', subCat: 'Starbucks' },
+    ]
+  },
+  {
+    id: 'land',
+    num: '23',
+    name: 'Land',
+    palette: 'palette-lime',
+    tags: ['land','real estate','drone','aerial','properties'],
+    desc: 'Raw earth, boundless potential. Land as investment, as legacy, as canvas.',
+    gradient: 'linear-gradient(135deg,#061200,#102000)',
+    videos: [
+      { id: 'LAND_001', title: 'Land — Coming Soon', placeholder: true },
+    ]
+  },
+  {
+    id: 'properties',
+    num: '24',
+    name: 'Properties',
+    palette: 'palette-cobalt',
+    tags: ['properties','real estate','luxury','architecture','drone'],
+    desc: 'Premier properties showcased with cinematic precision.',
+    gradient: 'linear-gradient(135deg,#050d1a,#0a1830)',
+    videos: [
+      { id: 'PROP_001', title: 'Properties — Coming Soon', placeholder: true },
+    ]
+  },
+  {
+    id: 'office',
+    num: '25',
+    name: 'Office',
+    palette: 'palette-slate',
+    tags: ['office','real estate','commercial','architecture','careers'],
+    desc: 'Corporate spaces where productivity meets design excellence.',
+    gradient: 'linear-gradient(135deg,#0a0c10,#141820)',
+    videos: [
+      { id: 'OFFICE_001', title: 'Office — Coming Soon', placeholder: true },
+    ]
+  },
+  {
+    id: 'agent',
+    num: '26',
+    name: 'Agent',
+    palette: 'palette-indigo',
+    tags: ['agent','real estate','careers','lifestyle'],
+    desc: 'The face of real estate. Agents in their element, closing deals in style.',
+    gradient: 'linear-gradient(135deg,#05001a,#0c0030)',
+    videos: [
+      { id: 'AGENT_001', title: 'Agent — Coming Soon', placeholder: true },
+    ]
+  },
+  {
+    id: 'careers',
+    num: '27',
+    name: 'Careers',
+    palette: 'palette-teal',
+    tags: ['careers','real estate','commercial','lifestyle'],
+    desc: 'Join the movement. Careers in real estate, reimagined for the next generation.',
+    gradient: 'linear-gradient(135deg,#001614,#002428)',
+    videos: [
+      { id: 'CAREERS_001', title: 'Careers — Coming Soon', placeholder: true },
+    ]
+  },
+  {
+    id: 'companies-industries',
+    num: '28',
+    name: 'Companies & Industries',
+    palette: 'palette-emerald',
+    tags: ['companies','industries','commercial','corporate','drone'],
+    desc: 'Industrial scale, cinematic perspective. Business captured at its most powerful.',
+    gradient: 'linear-gradient(135deg,#001a08,#003014)',
+    videos: [
+      { id: 'COMP_001', title: 'Companies & Industries — Coming Soon', placeholder: true },
+    ]
+  },
+  {
+    id: 'properties-ii',
+    num: '29',
+    name: 'Properties (II)',
+    palette: 'palette-rose',
+    tags: ['properties','real estate','luxury','architecture','aerial'],
+    desc: 'An expanded portfolio of premier properties — volume II.',
+    gradient: 'linear-gradient(135deg,#1a0008,#30001a)',
+    videos: [
+      { id: 'PROP2_001', title: 'Properties II — Coming Soon', placeholder: true },
+    ]
+  },
+  {
+    id: 'drone-movements-ii',
+    num: '30',
+    name: 'Drone Movements (II)',
+    palette: 'palette-cyan',
+    tags: ['drone','aerial','cinematic','commercial','real estate'],
+    desc: 'Volume II of the drone movement library — 28 distinct aerial choreographies.',
+    gradient: 'linear-gradient(135deg,#001820,#002838)',
+    videos: [
+      // From Movements subfolder (28 videos)
+      { id: '1192856339', title: 'Desert Office Campus Drone Flight' },
+      { id: '1192856337', title: 'Desert Office Campus Drone Flight 2' },
+      { id: '1192855287', title: 'Desert Office Campus Drone Sequence 2' },
+      { id: '1193695184', title: '2 Drone View Desert Care Facility' },
+      { id: '1192773732', title: 'Drone Flight into Medical Building' },
+      { id: '1192770572', title: 'Drone Flight Over Desert Office 2' },
+      { id: '1192770573', title: 'Drone Flight Over Desert Office' },
+      { id: '1192768783', title: 'Student Housing Leasing Lobby 2' },
+      { id: '1192768784', title: 'Student Housing Leasing Lobby' },
+      { id: '1193695053', title: '5 Infill Development Aerial Drone' },
+      { id: '1193695052', title: '1 Drone View Dutch Bros Development' },
+      { id: '1193695043', title: '3 Drone View Dutch Bros Development' },
+      { id: '1193695054', title: '4 Time-Lapse Day to Night' },
+      { id: '1193694885', title: '0 Drone Cinematography Vacant Comm' },
+      { id: '1192857472', title: 'Student Housing Leasing Lobby Main' },
+      { id: '1192857470', title: 'Student Housing Leasing Lobby 2B' },
+      { id: '1192857219', title: 'Drone Flight Over Desert Office Main' },
+      { id: '1192857216', title: 'Drone Flight Over Desert Office 2 Main' },
+      { id: '1192856976', title: 'Drone Flight into Medical Building 2' },
+      { id: '1192856975', title: 'Drone Flight into Medical Building Main' },
+      { id: '1192856669', title: 'Mid-Rise Property at Sunset 2' },
+      { id: '1192856671', title: 'Mid-Rise Property at Sunset' },
+    ]
+  },
+];
+
+// ═══════════════════════════════════════════════════
+//  GRADIENT BACKGROUNDS per category (CSS gradients)
+// ═══════════════════════════════════════════════════
+
+// Build all video search index
+const VIDEO_INDEX = [];
+CATEGORIES.forEach(cat => {
+  cat.videos.forEach(v => {
+    VIDEO_INDEX.push({ catId: cat.id, catName: cat.name, title: v.title, vimeoId: v.id });
+  });
+});
+
+// ═══════════════════════════════════════════════════
+//  BUILD CATEGORY CARDS
+// ═══════════════════════════════════════════════════
+function buildCategoryGrid() {
+  const grid = document.getElementById('cat-grid');
+  CATEGORIES.forEach((cat, i) => {
+    const card = document.createElement('div');
+    card.className = 'cat-card';
+    card.dataset.tags = cat.tags.join(' ').toLowerCase();
+    card.innerHTML = `
+      <div class="cat-card-bg" style="background:${cat.gradient}"></div>
+      <div class="cat-card-overlay"></div>
+      <div class="cat-card-content">
+        <div class="cat-num">${cat.num}</div>
+        <div class="cat-name">${cat.name}</div>
+        <div class="cat-count">${cat.videos.filter(v=>!v.placeholder).length} film${cat.videos.filter(v=>!v.placeholder).length!==1?'s':''}</div>
+        <div class="cat-tags-mini">
+          ${cat.tags.slice(0,3).map(t=>`<span class="ctag">${t}</span>`).join('')}
+        </div>
+      </div>
+    `;
+    card.addEventListener('click', () => showCategoryPage(cat.id));
+    grid.appendChild(card);
+  });
+}
+
+// ═══════════════════════════════════════════════════
+//  BUILD CATEGORY PAGES
+// ═══════════════════════════════════════════════════
+function buildCategoryPages() {
+  const container = document.getElementById('pages-container');
+  CATEGORIES.forEach(cat => {
+    const page = document.createElement('div');
+    page.className = `cat-page ${cat.palette}`;
+    page.id = `page-${cat.id}`;
+
+    const hasSubs = cat.subCategories && cat.subCategories.length > 0;
+    const subTabsHTML = hasSubs ? `
+      <div class="sub-tabs" id="subtabs-${cat.id}">
+        <button class="sub-tab active" onclick="filterSubCat('${cat.id}','all')">All</button>
+        ${cat.subCategories.map(s=>`<button class="sub-tab" onclick="filterSubCat('${cat.id}','${s}')">${s}</button>`).join('')}
+      </div>
+    ` : '';
+
+    const videosHTML = cat.videos.map((v, i) => {
+      if (v.placeholder) {
+        return `<div class="video-card" data-subcat="${v.subCat||''}">
+          <div class="video-wrapper" style="background:${cat.gradient};display:flex;align-items:center;justify-content:center;">
+            <div style="text-align:center;padding:40px;">
+              <div style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold);font-size:1.3rem;margin-bottom:8px;">Coming Soon</div>
+              <div style="font-size:0.7rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;">Videos Loading</div>
+            </div>
+          </div>
+          <div class="video-meta">
+            <span class="video-title">${v.title}</span>
+          </div>
+        </div>`;
+      }
+      const featured = i === 0 ? 'featured' : '';
+      return `<div class="video-card ${featured}" data-subcat="${v.subCat||''}">
+        <div class="video-wrapper">
+          <iframe src="https://player.vimeo.com/video/${v.id}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=0&loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+        <div class="video-meta">
+          <span class="video-title">${v.title.replace(/_/g,' ')}</span>
+          <span class="video-idx">${String(i+1).padStart(2,'0')}</span>
+        </div>
+      </div>`;
+    }).join('');
+
+    page.innerHTML = `
+      <div class="accent-bar"></div>
+      <div class="cat-hero">
+        <div class="cat-hero-bg" style="background:${cat.gradient}"></div>
+        <div class="cat-hero-gradient"></div>
+        <div class="cat-hero-content">
+          <button class="back-btn" onclick="showLanding()">← Back to Repository</button>
+          <h2 class="cat-hero-title">${cat.name}</h2>
+          <p class="cat-hero-desc">${cat.desc}</p>
+          <div class="cat-hero-tags">
+            ${cat.tags.map(t=>`<span class="hero-tag" onclick="filterByTag('${t}')">${t}</span>`).join('')}
+          </div>
+        </div>
+        <div class="cat-hero-number">${cat.num}</div>
+      </div>
+      <div class="videos-section">
+        ${subTabsHTML}
+        <div class="videos-grid" id="grid-${cat.id}">
+          ${videosHTML}
+        </div>
+      </div>
+    `;
+    container.appendChild(page);
+  });
+}
+
+// ═══════════════════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════════════════
+let currentPage = null;
+
+function showLanding() {
+  document.getElementById('landing').style.display = 'flex';
+  document.getElementById('category-index').style.display = 'block';
+  if (currentPage) {
+    document.getElementById(`page-${currentPage}`).classList.remove('active');
+    currentPage = null;
+  }
+  window.scrollTo(0, 0);
+}
+
+function showCategoryPage(catId) {
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('category-index').style.display = 'none';
+  if (currentPage && currentPage !== catId) {
+    document.getElementById(`page-${currentPage}`).classList.remove('active');
+  }
+  document.getElementById(`page-${catId}`).classList.add('active');
+  currentPage = catId;
+  window.scrollTo(0, 0);
+}
+
+// ═══════════════════════════════════════════════════
+//  SEARCH
+// ═══════════════════════════════════════════════════
+function doSearch(val) {
+  const box = document.getElementById('search-results');
+  if (!val.trim()) { box.style.display = 'none'; return; }
+  const q = val.toLowerCase();
+  const results = [];
+
+  CATEGORIES.forEach(cat => {
+    const matchCat = cat.name.toLowerCase().includes(q) || cat.tags.some(t=>t.includes(q));
+    if (matchCat) results.push({ type: 'category', cat, label: cat.name, sub: `${cat.videos.length} films · ${cat.tags.slice(0,2).join(', ')}` });
+    cat.videos.forEach(v => {
+      if (v.title.toLowerCase().includes(q)) {
+        results.push({ type: 'video', cat, label: v.title, sub: cat.name });
+      }
+    });
+  });
+
+  if (!results.length) { box.style.display = 'none'; return; }
+  box.style.display = 'block';
+  box.innerHTML = results.slice(0,8).map((r,i) => `
+    <div class="search-result-item" onclick="showCategoryPage('${r.cat.id}')">
+      <div>
+        <div class="sr-cat">${r.type === 'category' ? '📁 Category' : '🎬 Video'}</div>
+        <div class="sr-title">${r.label}</div>
+        <div class="sr-cat">${r.sub}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function searchKeydown(e) {
+  if (e.key === 'Escape') {
+    document.getElementById('search-results').style.display = 'none';
+    e.target.blur();
+  }
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.search-wrapper')) {
+    document.getElementById('search-results').style.display = 'none';
+  }
+});
+
+// ═══════════════════════════════════════════════════
+//  TAG FILTERING
+// ═══════════════════════════════════════════════════
+function filterByTag(tag) {
+  // Highlight pill
+  document.querySelectorAll('.tag-pill').forEach(p => {
+    p.classList.toggle('active', p.textContent.trim().toLowerCase() === tag.toLowerCase());
+  });
+  // Filter cards
+  document.querySelectorAll('.cat-card').forEach(card => {
+    const tags = card.dataset.tags;
+    card.classList.toggle('hidden', !tags.includes(tag.toLowerCase()));
+  });
+  // Scroll to index
+  document.getElementById('category-index').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ═══════════════════════════════════════════════════
+//  SUB-CATEGORY FILTER
+// ═══════════════════════════════════════════════════
+function filterSubCat(catId, subCat) {
+  // tabs
+  document.querySelectorAll(`#subtabs-${catId} .sub-tab`).forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.trim() === subCat || (subCat === 'all' && btn.textContent.trim() === 'All'));
+  });
+  // cards
+  document.querySelectorAll(`#grid-${catId} .video-card`).forEach(card => {
+    if (subCat === 'all') {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.toggle('hidden', card.dataset.subcat !== subCat);
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════
+buildCategoryGrid();
+buildCategoryPages();
+</script>
+</body>
+</html>
