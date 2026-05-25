@@ -479,16 +479,197 @@
   .sub-tab:hover { color: var(--text); }
   .sub-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
 
-  /* Responsive */
-  @media (max-width: 768px) {
-    #main-nav { padding: 0 20px; }
-    .cat-hero-content { padding: 30px 24px; }
-    .videos-section { padding: 40px 20px 60px; }
-    .categories-grid { grid-template-columns: 1fr 1fr; }
-    .videos-grid { grid-template-columns: 1fr; }
-    .video-card.featured .video-wrapper { padding-top: 56.25%; }
+  /* ── LAZY IFRAME PLACEHOLDER ── */
+  .video-placeholder {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: var(--near-black);
+    cursor: pointer;
+    gap: 12px;
+  }
+  .video-placeholder-thumb {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    filter: brightness(0.55);
+  }
+  .play-btn-circle {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: rgba(201,169,110,0.9);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; z-index: 2;
+    transition: transform 0.2s, background 0.2s;
+    flex-shrink: 0;
+  }
+  .play-btn-circle:hover { transform: scale(1.1); background: var(--gold); }
+  .play-btn-circle svg { width: 22px; height: 22px; fill: var(--black); margin-left: 3px; }
+  .play-label {
+    position: relative; z-index: 2;
+    font-size: 0.65rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold-light);
+  }
+
+  /* ─── MOBILE-FIRST RESPONSIVE ─── */
+
+  /* NAV mobile */
+  @media (max-width: 600px) {
+    #main-nav {
+      padding: 0 16px;
+      height: 52px;
+    }
+    .nav-tagline { display: none; }
+    .nav-logo { font-size: 1.2rem; }
+  }
+
+  /* HERO / LANDING mobile */
+  @media (max-width: 600px) {
+    #landing {
+      padding: 0 16px;
+      text-align: center;
+      justify-content: center;
+    }
+    .hero-eyebrow {
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      margin-bottom: 16px;
+    }
+    .hero-title {
+      font-size: clamp(3.2rem, 14vw, 4.5rem);
+      letter-spacing: 0.04em;
+    }
+    .hero-sub {
+      font-size: 0.95rem;
+      margin-top: 14px;
+      padding: 0 8px;
+      text-align: center;
+    }
+    .search-wrapper {
+      margin-top: 28px;
+      width: 92vw;
+    }
+    .search-input {
+      font-size: 0.95rem;
+      padding: 14px 44px 14px 18px;
+    }
+    .tags-bar {
+      margin-top: 20px;
+      gap: 8px;
+      padding: 0 4px;
+      max-width: 100vw;
+    }
+    .tag-pill {
+      font-size: 0.62rem;
+      padding: 6px 12px;
+      letter-spacing: 0.08em;
+    }
+    .scroll-hint { display: none; }
+  }
+
+  /* CATEGORY INDEX mobile */
+  @media (max-width: 600px) {
+    #category-index {
+      padding: 72px 12px 48px;
+    }
+    .section-label {
+      font-size: 0.6rem;
+      margin-bottom: 24px;
+    }
+    .categories-grid {
+      grid-template-columns: 1fr;
+      gap: 1px;
+    }
+    .cat-card {
+      aspect-ratio: 16/9;
+    }
+    .cat-name { font-size: 1.25rem; }
+  }
+
+  @media (min-width: 601px) and (max-width: 900px) {
     #category-index { padding: 80px 20px 60px; }
-    .hero-title { font-size: 3.5rem; }
+    .categories-grid { grid-template-columns: 1fr 1fr; gap: 2px; }
+  }
+
+  /* CATEGORY PAGE HERO mobile */
+  @media (max-width: 600px) {
+    .cat-page { padding-top: 52px; }
+    .cat-hero {
+      height: auto;
+      min-height: 280px;
+    }
+    .cat-hero-content {
+      padding: 28px 18px 24px;
+    }
+    .back-btn {
+      font-size: 0.6rem;
+      margin-bottom: 14px;
+    }
+    .cat-hero-title {
+      font-size: clamp(2rem, 9vw, 3rem);
+    }
+    .cat-hero-desc {
+      font-size: 0.92rem;
+      margin-top: 8px;
+      max-width: 100%;
+    }
+    .cat-hero-tags { margin-top: 12px; gap: 6px; }
+    .hero-tag { font-size: 0.58rem; padding: 4px 10px; }
+    .cat-hero-number { display: none; }
+  }
+
+  /* SUB-TABS mobile — horizontal scroll */
+  @media (max-width: 600px) {
+    .sub-tabs {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 0;
+      margin-bottom: 24px;
+    }
+    .sub-tabs::-webkit-scrollbar { display: none; }
+    .sub-tab {
+      padding: 12px 18px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-size: 0.62rem;
+    }
+  }
+
+  /* VIDEO GRID mobile */
+  @media (max-width: 600px) {
+    .videos-section { padding: 24px 12px 60px; }
+    .videos-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    /* No featured span on mobile */
+    .video-card.featured { grid-column: auto; }
+    .video-card.featured .video-wrapper { padding-top: 56.25%; }
+    .video-meta { padding: 12px 14px; }
+    .video-title { font-size: 0.78rem; }
+  }
+
+  @media (min-width: 601px) and (max-width: 1024px) {
+    .videos-section { padding: 40px 24px 60px; }
+    .videos-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .video-card.featured .video-wrapper { padding-top: 56.25%; }
+  }
+
+  /* FOOTER mobile */
+  @media (max-width: 600px) {
+    footer {
+      padding: 28px 16px;
+      flex-direction: column;
+      text-align: center;
+      gap: 8px;
+    }
+  }
+
+  /* Touch-friendly tap targets */
+  @media (hover: none) {
+    .cat-card:hover { transform: none; }
+    .video-card:hover { transform: none; border-color: rgba(255,255,255,0.05); }
   }
 </style>
 </head>
@@ -497,7 +678,7 @@
 <!-- ═══════════ NAVIGATION ═══════════ -->
 <nav id="main-nav">
   <a class="nav-logo" onclick="showLanding()">META<span>EARTH</span></a>
-  <div style="display:flex;align-items:center;gap:24px;">
+  <div class="nav-tagline" style="display:flex;align-items:center;gap:24px;">
     <span style="font-size:0.65rem;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;">Commercials & Drone Imagery</span>
   </div>
 </nav>
@@ -1103,8 +1284,68 @@ function buildCategoryGrid() {
 }
 
 // ═══════════════════════════════════════════════════
-//  BUILD CATEGORY PAGES
+//  BUILD CATEGORY PAGES  (lazy-load iframes)
 // ═══════════════════════════════════════════════════
+
+// Clean Vimeo URL — title=0&byline=0&portrait=0 hide the overlay meta,
+// dnt=1 avoids tracking (helps with 403 on some embeds),
+// no autoplay/loop params at load time to prevent 403s
+function vimeoSrc(id) {
+  return `https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&dnt=1&badge=0`;
+}
+
+function makeVideoCard(v, i, catGradient) {
+  if (v.placeholder) {
+    return `<div class="video-card" data-subcat="${v.subCat||''}">
+      <div class="video-wrapper" style="background:${catGradient};">
+        <div class="video-placeholder">
+          <div style="text-align:center;padding:40px;position:relative;z-index:2;">
+            <div style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold);font-size:1.3rem;margin-bottom:8px;">Coming Soon</div>
+            <div style="font-size:0.65rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;">Videos Loading</div>
+          </div>
+        </div>
+      </div>
+      <div class="video-meta">
+        <span class="video-title">${v.title}</span>
+      </div>
+    </div>`;
+  }
+
+  const featured = i === 0 ? 'featured' : '';
+  // Lazy: render a tap-to-load placeholder with Vimeo thumbnail
+  // Clicking it replaces with the actual iframe — avoids 403 from bulk loading
+  // and removes all Vimeo branding from the card view
+  const thumbUrl = `https://vumbnail.com/${v.id}.jpg`;
+
+  return `<div class="video-card ${featured}" data-subcat="${v.subCat||''}">
+    <div class="video-wrapper" id="vw-${v.id}-${i}">
+      <div class="video-placeholder" onclick="loadVimeo(this, '${v.id}', '${v.id}-${i}')">
+        <div class="video-placeholder-thumb" style="background-image:url('${thumbUrl}')"></div>
+        <div class="play-btn-circle">
+          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+        <span class="play-label">Tap to Play</span>
+      </div>
+    </div>
+    <div class="video-meta">
+      <span class="video-title">${v.title.replace(/_/g,' ')}</span>
+      <span class="video-idx">${String(i+1).padStart(2,'0')}</span>
+    </div>
+  </div>`;
+}
+
+function loadVimeo(placeholder, vimeoId, uid) {
+  const wrapper = document.getElementById(`vw-${uid}`);
+  if (!wrapper) return;
+  const iframe = document.createElement('iframe');
+  iframe.src = vimeoSrc(vimeoId) + '&autoplay=1';
+  iframe.frameBorder = '0';
+  iframe.allow = 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media';
+  iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+  iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:none;';
+  placeholder.replaceWith(iframe);
+}
+
 function buildCategoryPages() {
   const container = document.getElementById('pages-container');
   CATEGORIES.forEach(cat => {
@@ -1120,31 +1361,7 @@ function buildCategoryPages() {
       </div>
     ` : '';
 
-    const videosHTML = cat.videos.map((v, i) => {
-      if (v.placeholder) {
-        return `<div class="video-card" data-subcat="${v.subCat||''}">
-          <div class="video-wrapper" style="background:${cat.gradient};display:flex;align-items:center;justify-content:center;">
-            <div style="text-align:center;padding:40px;">
-              <div style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold);font-size:1.3rem;margin-bottom:8px;">Coming Soon</div>
-              <div style="font-size:0.7rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;">Videos Loading</div>
-            </div>
-          </div>
-          <div class="video-meta">
-            <span class="video-title">${v.title}</span>
-          </div>
-        </div>`;
-      }
-      const featured = i === 0 ? 'featured' : '';
-      return `<div class="video-card ${featured}" data-subcat="${v.subCat||''}">
-        <div class="video-wrapper">
-          <iframe src="https://player.vimeo.com/video/${v.id}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=0&loop=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-        </div>
-        <div class="video-meta">
-          <span class="video-title">${v.title.replace(/_/g,' ')}</span>
-          <span class="video-idx">${String(i+1).padStart(2,'0')}</span>
-        </div>
-      </div>`;
-    }).join('');
+    const videosHTML = cat.videos.map((v, i) => makeVideoCard(v, i, cat.gradient)).join('');
 
     page.innerHTML = `
       <div class="accent-bar"></div>
@@ -1209,9 +1426,9 @@ function doSearch(val) {
 
   CATEGORIES.forEach(cat => {
     const matchCat = cat.name.toLowerCase().includes(q) || cat.tags.some(t=>t.includes(q));
-    if (matchCat) results.push({ type: 'category', cat, label: cat.name, sub: `${cat.videos.length} films · ${cat.tags.slice(0,2).join(', ')}` });
+    if (matchCat) results.push({ type: 'category', cat, label: cat.name, sub: `${cat.videos.filter(v=>!v.placeholder).length} films · ${cat.tags.slice(0,2).join(', ')}` });
     cat.videos.forEach(v => {
-      if (v.title.toLowerCase().includes(q)) {
+      if (!v.placeholder && v.title.toLowerCase().includes(q)) {
         results.push({ type: 'video', cat, label: v.title, sub: cat.name });
       }
     });
@@ -1219,7 +1436,7 @@ function doSearch(val) {
 
   if (!results.length) { box.style.display = 'none'; return; }
   box.style.display = 'block';
-  box.innerHTML = results.slice(0,8).map((r,i) => `
+  box.innerHTML = results.slice(0,8).map(r => `
     <div class="search-result-item" onclick="showCategoryPage('${r.cat.id}')">
       <div>
         <div class="sr-cat">${r.type === 'category' ? '📁 Category' : '🎬 Video'}</div>
@@ -1247,34 +1464,33 @@ document.addEventListener('click', e => {
 //  TAG FILTERING
 // ═══════════════════════════════════════════════════
 function filterByTag(tag) {
-  // Highlight pill
   document.querySelectorAll('.tag-pill').forEach(p => {
     p.classList.toggle('active', p.textContent.trim().toLowerCase() === tag.toLowerCase());
   });
-  // Filter cards
   document.querySelectorAll('.cat-card').forEach(card => {
-    const tags = card.dataset.tags;
-    card.classList.toggle('hidden', !tags.includes(tag.toLowerCase()));
+    card.classList.toggle('hidden', !card.dataset.tags.includes(tag.toLowerCase()));
   });
-  // Scroll to index
-  document.getElementById('category-index').scrollIntoView({ behavior: 'smooth' });
+  // Go back to landing if on a page
+  showLanding();
+  setTimeout(() => {
+    document.getElementById('category-index').scrollIntoView({ behavior: 'smooth' });
+  }, 80);
 }
 
 // ═══════════════════════════════════════════════════
 //  SUB-CATEGORY FILTER
 // ═══════════════════════════════════════════════════
 function filterSubCat(catId, subCat) {
-  // tabs
   document.querySelectorAll(`#subtabs-${catId} .sub-tab`).forEach(btn => {
-    btn.classList.toggle('active', btn.textContent.trim() === subCat || (subCat === 'all' && btn.textContent.trim() === 'All'));
+    btn.classList.toggle('active',
+      (subCat === 'all' && btn.textContent.trim() === 'All') ||
+      btn.textContent.trim() === subCat
+    );
   });
-  // cards
   document.querySelectorAll(`#grid-${catId} .video-card`).forEach(card => {
-    if (subCat === 'all') {
-      card.classList.remove('hidden');
-    } else {
-      card.classList.toggle('hidden', card.dataset.subcat !== subCat);
-    }
+    card.classList.toggle('hidden',
+      subCat !== 'all' && card.dataset.subcat !== subCat
+    );
   });
 }
 
