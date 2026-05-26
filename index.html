@@ -1829,10 +1829,30 @@ function showCategoryPage(catId) {
 function triggerSearch() {
   const val = document.getElementById('search-input').value.trim();
   if (!val) { document.getElementById('search-input').focus(); return; }
-  // Navigate to first visible result
-  const firstResult = document.querySelector('#search-results .search-result-item[onmousedown]');
-  if (firstResult) { firstResult.dispatchEvent(new MouseEvent('mousedown', {bubbles:true})); return; }
-  doSearch(val);
+  const q = val.toLowerCase();
+
+  // Find the best match: exact name match first, then starts-with, then any match
+  let best = null;
+  for (const cat of CATEGORIES) {
+    if (cat.name.toLowerCase() === q) { best = cat; break; }
+  }
+  if (!best) {
+    for (const cat of CATEGORIES) {
+      if (cat.name.toLowerCase().startsWith(q)) { best = cat; break; }
+    }
+  }
+  if (!best) {
+    for (const cat of CATEGORIES) {
+      if (cat.name.toLowerCase().includes(q) || cat.tags.some(t => t.includes(q))) {
+        best = cat; break;
+      }
+    }
+  }
+  if (best) {
+    document.getElementById('search-results').style.display = 'none';
+    document.getElementById('search-input').value = '';
+    showCategoryPage(best.id);
+  }
 }
 
 function doSearch(val) {
@@ -1884,9 +1904,7 @@ function searchKeydown(e) {
     e.target.blur();
   }
   if (e.key === 'Enter') {
-    const firstResult = document.querySelector('#search-results .search-result-item');
-    if (firstResult) { firstResult.dispatchEvent(new MouseEvent('mousedown', {bubbles:true})); }
-    else { triggerSearch(); }
+    triggerSearch();
   }
 }
 
