@@ -41,7 +41,8 @@
     background: var(--cream);
     color: var(--ink);
     font-family: 'DM Sans', sans-serif;
-    font-weight: 400;
+    font-weight: 500;
+    font-size: 1.05rem;
     line-height: 1.6;
     overflow-x: hidden;
   }
@@ -66,7 +67,7 @@
   }
   .nav-logo {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     letter-spacing: 0.15em;
     color: var(--gold);
     cursor: pointer;
@@ -94,7 +95,8 @@
 
   .hero-eyebrow {
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.68rem;
+    font-size: 0.82rem;
+    font-weight: 600;
     letter-spacing: 0.35em;
     color: var(--gold);
     text-transform: uppercase;
@@ -118,8 +120,9 @@
   .hero-sub {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    font-size: 1.1rem;
-    color: var(--ink-mute);
+    font-size: 1.45rem;
+    font-weight: 600;
+    color: var(--ink-mid);
     margin-top: 20px;
     letter-spacing: 0.05em;
     animation: fadeUp 1s 0.3s ease both;
@@ -184,8 +187,8 @@
   }
   .search-result-item:last-child { border-bottom: none; }
   .search-result-item:hover { background: var(--warm); }
-  .sr-cat { font-size: 0.65rem; color: var(--gold); text-transform: uppercase; letter-spacing: 0.15em; }
-  .sr-title { font-size: 0.88rem; color: var(--ink); }
+  .sr-cat { font-size: 0.75rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 0.15em; }
+  .sr-title { font-size: 0.95rem; font-weight: 500; color: var(--ink); }
 
   /* ── TAGS ── */
   .tags-bar {
@@ -195,10 +198,10 @@
     animation: fadeUp 1s 0.6s ease both;
   }
   .tag-pill {
-    font-size: 0.68rem;
+    font-size: 0.78rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    padding: 7px 16px;
+    padding: 8px 18px;
     border: 1px solid var(--border-md);
     color: var(--ink-mid);
     cursor: pointer;
@@ -206,7 +209,7 @@
     transition: all 0.2s;
     background: var(--white);
     font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
+    font-weight: 600;
     box-shadow: var(--shadow-sm);
   }
   .tag-pill:hover, .tag-pill.active {
@@ -229,7 +232,7 @@
   .scroll-hint {
     position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
     display: flex; flex-direction: column; align-items: center; gap: 8px;
-    color: var(--ink-mute); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ink-mid); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
     animation: bob 2s ease-in-out infinite;
   }
   @keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
@@ -242,11 +245,11 @@
     margin: 0 auto;
   }
   .section-label {
-    font-size: 0.65rem;
+    font-size: 0.8rem;
+    font-weight: 700;
     letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: var(--stone);
-    font-weight: 500;
+    color: var(--ink-mid);
     margin-bottom: 36px;
     display: flex; align-items: center; gap: 16px;
   }
@@ -289,21 +292,23 @@
   }
   .cat-num {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
     color: var(--gold);
     letter-spacing: 0.1em;
     margin-bottom: 6px;
   }
   .cat-name {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.4rem;
+    font-size: 1.7rem;
     letter-spacing: 0.08em;
     color: var(--white);
     line-height: 1;
   }
   .cat-count {
-    font-size: 0.65rem;
-    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba(247,244,238,0.75);
     letter-spacing: 0.15em;
     text-transform: uppercase;
     margin-top: 5px;
@@ -312,8 +317,9 @@
     display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;
   }
   .ctag {
-    font-size: 0.55rem;
-    padding: 2px 8px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 3px 10px;
     background: var(--gold-bg);
     color: var(--gold);
     letter-spacing: 0.1em;
@@ -353,7 +359,7 @@
   }
   .back-btn {
     display: inline-flex; align-items: center; gap: 8px;
-    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
     color: var(--gold); cursor: pointer; border: none; background: none;
     margin-bottom: 20px; padding: 0; font-family: 'DM Sans', sans-serif;
     transition: gap 0.2s;
@@ -378,7 +384,8 @@
   .cat-hero-desc {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    font-size: 1.05rem;
+    font-size: 1.3rem;
+    font-weight: 600;
     color: var(--gold-light);
     margin-top: 12px;
     max-width: 500px;
@@ -442,15 +449,16 @@
     border-top: 1px solid var(--border);
   }
   .video-title {
-    font-size: 0.82rem;
-    font-weight: 500;
-    color: var(--ink-mid);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--ink);
     letter-spacing: 0.02em;
     text-transform: capitalize;
   }
   .video-idx {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 0.75rem;
+    font-size: 0.88rem;
+    font-weight: 600;
     color: var(--gold);
     flex-shrink: 0;
     margin-left: 10px;
@@ -474,10 +482,10 @@
   }
   .footer-logo {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.2rem; letter-spacing: 0.15em; color: var(--gold);
+    font-size: 1.4rem; letter-spacing: 0.15em; color: var(--gold);
   }
   .footer-copy {
-    font-size: 0.7rem; color: var(--ink-mute); letter-spacing: 0.06em;
+    font-size: 0.82rem; font-weight: 500; color: var(--ink-mid); letter-spacing: 0.06em;
   }
 
   /* ── SERVICE AREAS SECTION ── */
@@ -490,7 +498,8 @@
     overflow: hidden;
   }
   .service-eyebrow {
-    font-size: 0.65rem;
+    font-size: 0.8rem;
+    font-weight: 700;
     letter-spacing: 0.35em;
     color: var(--gold);
     text-transform: uppercase;
@@ -498,7 +507,7 @@
   }
   .service-title {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-size: clamp(2.4rem, 5vw, 4rem);
     letter-spacing: 0.1em;
     color: var(--ink);
     margin-bottom: 6px;
@@ -506,8 +515,9 @@
   .service-sub {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    font-size: 1rem;
-    color: var(--ink-mute);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--ink-mid);
     margin-bottom: 60px;
   }
 
@@ -549,15 +559,16 @@
   }
   .personal-logo-name {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     letter-spacing: 0.25em;
     color: var(--gold);
   }
   .personal-logo-tagline {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    font-size: 0.85rem;
-    color: var(--ink-mute);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--ink-mid);
     letter-spacing: 0.08em;
   }
 
@@ -575,9 +586,10 @@
     background: var(--border-md);
   }
   .service-divider-text {
-    font-size: 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 700;
     letter-spacing: 0.3em;
-    color: var(--stone);
+    color: var(--ink-mid);
     text-transform: uppercase;
     white-space: nowrap;
   }
@@ -616,10 +628,11 @@
     filter: drop-shadow(0 4px 16px rgba(184,150,62,0.38)) drop-shadow(0 2px 8px rgba(28,26,23,0.15));
   }
   .city-logo-label {
-    font-size: 0.58rem;
+    font-size: 0.72rem;
+    font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--ink-mute);
+    color: var(--ink-mid);
     font-family: 'DM Sans', sans-serif;
   }
   .city-logo-item {
@@ -1008,7 +1021,7 @@
 
 <!-- ═══════════ CATEGORY INDEX ═══════════ -->
 <div id="category-index">
-  <div class="section-label">All Categories</div>
+  <div class="section-label" id="section-label">All Categories</div>
   <div class="categories-grid" id="cat-grid">
     <!-- cards injected by JS -->
   </div>
@@ -1028,7 +1041,7 @@
   <!-- Personal brand logo — featured -->
   <div class="personal-logo-wrap">
     <div class="personal-logo-badge" onclick="openLogoLightbox(this.querySelector('img').src,'Lamar Myers','personal')" style="cursor:pointer;" title="Click to view full size">
-      <img src="https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/lamar_myers.png" alt="Lamar Myers">
+      <img src="https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/lamar_myers_b.png" alt="Lamar Myers">
     </div>
     <div class="personal-logo-name">Lamar Myers</div>
     <div class="personal-logo-tagline">Director · Cinematographer · Creator</div>
@@ -1890,6 +1903,8 @@ function showAllCategories() {
   document.getElementById('pill-all').classList.add('active');
   // Show every card
   document.querySelectorAll('.cat-card').forEach(card => card.classList.remove('hidden'));
+  // Reset section label
+  document.getElementById('section-label').textContent = 'All Categories';
   showLanding();
   setTimeout(() => document.getElementById('category-index').scrollIntoView({ behavior: 'smooth' }), 80);
 }
@@ -1918,6 +1933,11 @@ function filterByTag(tag) {
   document.querySelectorAll('.cat-card').forEach(card => {
     card.classList.toggle('hidden', !card.dataset.tags.includes(tag.toLowerCase()));
   });
+
+  // Update section label to reflect active filter
+  const labelEl = document.getElementById('section-label');
+  const activePill = [...document.querySelectorAll('.tag-pill:not(.all-pill)')].find(p => p.classList.contains('active'));
+  labelEl.textContent = activePill ? activePill.textContent.trim() + ' Categories' : 'All Categories';
 
   showLanding();
   setTimeout(() => document.getElementById('category-index').scrollIntoView({ behavior: 'smooth' }), 80);
