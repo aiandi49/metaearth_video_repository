@@ -988,7 +988,7 @@
 
   <div class="search-wrapper">
     <input class="search-input" type="text" id="search-input" placeholder="Search by category, tag, or title…" oninput="doSearch(this.value)" onkeydown="searchKeydown(event)">
-    <button class="search-icon" onclick="triggerSearch()" aria-label="Search">⌕</button>
+    <button class="search-icon" onclick="triggerSearch()" aria-label="Search"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg></button>
     <div id="search-results"></div>
   </div>
 
@@ -1827,12 +1827,12 @@ function showCategoryPage(catId) {
 //  SEARCH
 // ═══════════════════════════════════════════════════
 function triggerSearch() {
-  const val = document.getElementById('search-input').value;
-  if (val.trim()) {
-    doSearch(val);
-  } else {
-    document.getElementById('search-input').focus();
-  }
+  const val = document.getElementById('search-input').value.trim();
+  if (!val) { document.getElementById('search-input').focus(); return; }
+  // Navigate to first visible result
+  const firstResult = document.querySelector('#search-results .search-result-item[onmousedown]');
+  if (firstResult) { firstResult.dispatchEvent(new MouseEvent('mousedown', {bubbles:true})); return; }
+  doSearch(val);
 }
 
 function doSearch(val) {
@@ -1862,7 +1862,7 @@ function doSearch(val) {
   }
   box.style.display = 'block';
   box.innerHTML = results.slice(0, 10).map(r => `
-    <div class="search-result-item" onclick="closeSearchAndGo('${r.cat.id}')">
+    <div class="search-result-item" onmousedown="event.preventDefault(); closeSearchAndGo('${r.cat.id}')">
       <div>
         <div class="sr-cat">${r.type === 'category' ? '📁 CATEGORY' : '🎬 VIDEO'}</div>
         <div class="sr-title">${r.label}</div>
@@ -1884,7 +1884,9 @@ function searchKeydown(e) {
     e.target.blur();
   }
   if (e.key === 'Enter') {
-    triggerSearch();
+    const firstResult = document.querySelector('#search-results .search-result-item');
+    if (firstResult) { firstResult.dispatchEvent(new MouseEvent('mousedown', {bubbles:true})); }
+    else { triggerSearch(); }
   }
 }
 
