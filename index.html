@@ -439,6 +439,149 @@
     font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em;
   }
 
+  /* ── SERVICE AREAS SECTION ── */
+  #service-areas {
+    background: var(--near-black);
+    border-top: 1px solid rgba(201,169,110,0.12);
+    border-bottom: 1px solid rgba(201,169,110,0.12);
+    padding: 80px 40px 70px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .service-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .service-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    letter-spacing: 0.1em;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .service-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--muted);
+    margin-bottom: 60px;
+  }
+
+  /* Lamar Myers personal logo — featured hero treatment */
+  .personal-logo-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 64px;
+    gap: 16px;
+  }
+  .personal-logo-badge {
+    position: relative;
+    display: inline-block;
+  }
+  .personal-logo-badge::before {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,169,110,0.25) 0%, transparent 70%);
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+  }
+  .personal-logo-badge img {
+    width: 160px;
+    height: 160px;
+    object-fit: contain;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 0 24px rgba(201,169,110,0.5)) drop-shadow(0 0 8px rgba(201,169,110,0.3));
+    transition: filter 0.4s;
+  }
+  .personal-logo-badge:hover img {
+    filter: drop-shadow(0 0 36px rgba(201,169,110,0.8)) drop-shadow(0 0 16px rgba(201,169,110,0.5));
+  }
+  .personal-logo-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+  }
+  .personal-logo-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  /* City logos divider line */
+  .service-divider {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    max-width: 600px;
+    margin: 0 auto 52px;
+  }
+  .service-divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201,169,110,0.4), transparent);
+  }
+  .service-divider-text {
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* City logos row */
+  .city-logos-track {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 32px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .city-logo-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.75;
+    transition: opacity 0.3s, transform 0.3s;
+    cursor: default;
+  }
+  .city-logo-item:hover {
+    opacity: 1;
+    transform: translateY(-4px);
+  }
+  .city-logo-item img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
+    transition: filter 0.3s;
+  }
+  .city-logo-item:hover img {
+    filter: drop-shadow(0 4px 16px rgba(201,169,110,0.35)) drop-shadow(0 2px 8px rgba(0,0,0,0.6));
+  }
+  .city-logo-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+  }
+
   /* ── FILTERED HIDDEN ── */
   .cat-card.hidden, .video-card.hidden { display: none !important; }
 
@@ -692,6 +835,14 @@
     .cat-card:hover { transform: none; }
     .video-card:hover { transform: none; border-color: rgba(255,255,255,0.05); }
   }
+
+  /* SERVICE AREAS mobile */
+  @media (max-width: 600px) {
+    #service-areas { padding: 60px 20px 50px; }
+    .personal-logo-badge img { width: 120px; height: 120px; }
+    .city-logos-track { gap: 24px 16px; }
+    .city-logo-item img { width: 70px; height: 70px; }
+  }
 </style>
 </head>
 <body>
@@ -763,6 +914,61 @@
 <div id="pages-container">
   <!-- pages injected by JS -->
 </div>
+
+<!-- ═══════════ SERVICE AREAS ═══════════ -->
+<section id="service-areas">
+  <div class="service-eyebrow">Serving Arizona & Beyond</div>
+  <h2 class="service-title">Our Coverage</h2>
+  <p class="service-sub">Cinematic production across the state — from desert cities to mountain towns</p>
+
+  <!-- Personal brand logo — featured -->
+  <div class="personal-logo-wrap">
+    <div class="personal-logo-badge">
+      <img src="https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/lamar_myers.png" alt="Lamar Myers">
+    </div>
+    <div class="personal-logo-name">Lamar Myers</div>
+    <div class="personal-logo-tagline">Director · Cinematographer · Creator</div>
+  </div>
+
+  <!-- Divider -->
+  <div class="service-divider">
+    <div class="service-divider-line"></div>
+    <div class="service-divider-text">Service Areas</div>
+    <div class="service-divider-line"></div>
+  </div>
+
+  <!-- City logos -->
+  <div class="city-logos-track">
+    <div class="city-logo-item">
+      <img src="https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/phoenix.png" alt="Phoenix">
+      <span class="city-logo-label">Phoenix</span>
+    </div>
+    <div class="city-logo-item">
+      <img src="https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/scottsdale.png" alt="Scottsdale">
+      <span class="city-logo-label">Scottsdale</span>
+    </div>
+    <div class="city-logo-item">
+      <img src="https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/tucson.png" alt="Tucson">
+      <span class="city-logo-label">Tucson</span>
+    </div>
+    <div class="city-logo-item">
+      <img src="https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/flagstaff.png" alt="Flagstaff">
+      <span class="city-logo-label">Flagstaff</span>
+    </div>
+    <div class="city-logo-item">
+      <img src="https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/prescott.png" alt="Prescott">
+      <span class="city-logo-label">Prescott</span>
+    </div>
+    <div class="city-logo-item">
+      <img src="https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/sierra_vista.png" alt="Sierra Vista">
+      <span class="city-logo-label">Sierra Vista</span>
+    </div>
+    <div class="city-logo-item">
+      <img src="https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/yuma.png" alt="Yuma">
+      <span class="city-logo-label">Yuma</span>
+    </div>
+  </div>
+</section>
 
 <footer>
   <div class="footer-logo">METAEARTH</div>
