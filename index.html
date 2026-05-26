@@ -136,10 +136,15 @@
     background: rgba(255,255,255,0.08);
   }
   .search-icon {
-    position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
-    color: var(--gold); pointer-events: none;
+    position: absolute; right: 0; top: 0; height: 100%; width: 52px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); cursor: pointer;
     font-size: 1.1rem;
+    background: transparent; border: none;
+    border-left: 1px solid rgba(201,169,110,0.2);
+    transition: background 0.2s;
   }
+  .search-icon:hover { background: rgba(201,169,110,0.1); }
   #search-results {
     position: absolute; top: calc(100% + 8px); left: 0; right: 0;
     background: rgba(17,17,17,0.98);
@@ -182,6 +187,14 @@
     background: var(--gold);
     color: var(--black);
     border-color: var(--gold);
+  }
+  .tag-pill.all-pill {
+    border-color: rgba(201,169,110,0.7);
+    color: var(--gold);
+  }
+  .tag-pill.all-pill.active, .tag-pill.all-pill:hover {
+    background: var(--gold);
+    color: var(--black);
   }
 
   .scroll-hint {
@@ -707,11 +720,12 @@
 
   <div class="search-wrapper">
     <input class="search-input" type="text" id="search-input" placeholder="Search by category, tag, or title…" oninput="doSearch(this.value)" onkeydown="searchKeydown(event)">
-    <span class="search-icon">⌕</span>
+    <button class="search-icon" onclick="triggerSearch()" aria-label="Search">⌕</button>
     <div id="search-results"></div>
   </div>
 
   <div class="tags-bar" id="tags-bar">
+    <button class="tag-pill all-pill active" id="pill-all" onclick="showAllCategories()">All</button>
     <button class="tag-pill" onclick="filterByTag('drone')">Drone</button>
     <button class="tag-pill" onclick="filterByTag('real estate')">Real Estate</button>
     <button class="tag-pill" onclick="filterByTag('commercial')">Commercial</button>
@@ -1443,6 +1457,15 @@ function showCategoryPage(catId) {
 // ═══════════════════════════════════════════════════
 //  SEARCH
 // ═══════════════════════════════════════════════════
+function triggerSearch() {
+  const val = document.getElementById('search-input').value;
+  if (val.trim()) {
+    doSearch(val);
+  } else {
+    document.getElementById('search-input').focus();
+  }
+}
+
 function doSearch(val) {
   const box = document.getElementById('search-results');
   if (!val.trim()) { box.style.display = 'none'; return; }
@@ -1450,32 +1473,49 @@ function doSearch(val) {
   const results = [];
 
   CATEGORIES.forEach(cat => {
-    const matchCat = cat.name.toLowerCase().includes(q) || cat.tags.some(t=>t.includes(q));
-    if (matchCat) results.push({ type: 'category', cat, label: cat.name, sub: `${cat.videos.filter(v=>!v.placeholder).length} films · ${cat.tags.slice(0,2).join(', ')}` });
+    const matchCat = cat.name.toLowerCase().includes(q) || cat.tags.some(t => t.includes(q));
+    if (matchCat) results.push({
+      type: 'category', cat,
+      label: cat.name,
+      sub: `${cat.videos.filter(v=>!v.placeholder).length} FILMS · ${cat.tags.slice(0,2).join(', ').toUpperCase()}`
+    });
     cat.videos.forEach(v => {
       if (!v.placeholder && v.title.toLowerCase().includes(q)) {
-        results.push({ type: 'video', cat, label: v.title, sub: cat.name });
+        results.push({ type: 'video', cat, label: v.title, sub: cat.name.toUpperCase() });
       }
     });
   });
 
-  if (!results.length) { box.style.display = 'none'; return; }
+  if (!results.length) {
+    box.style.display = 'block';
+    box.innerHTML = `<div class="search-result-item" style="pointer-events:none;"><div><div class="sr-cat">No results found</div><div class="sr-title" style="color:var(--muted);">Try a different search term</div></div></div>`;
+    return;
+  }
   box.style.display = 'block';
-  box.innerHTML = results.slice(0,8).map(r => `
-    <div class="search-result-item" onclick="showCategoryPage('${r.cat.id}')">
+  box.innerHTML = results.slice(0, 10).map(r => `
+    <div class="search-result-item" onclick="closeSearchAndGo('${r.cat.id}')">
       <div>
-        <div class="sr-cat">${r.type === 'category' ? '📁 Category' : '🎬 Video'}</div>
+        <div class="sr-cat">${r.type === 'category' ? '📁 CATEGORY' : '🎬 VIDEO'}</div>
         <div class="sr-title">${r.label}</div>
-        <div class="sr-cat">${r.sub}</div>
+        <div class="sr-cat" style="margin-top:2px;">${r.sub}</div>
       </div>
     </div>
   `).join('');
+}
+
+function closeSearchAndGo(catId) {
+  document.getElementById('search-results').style.display = 'none';
+  document.getElementById('search-input').value = '';
+  showCategoryPage(catId);
 }
 
 function searchKeydown(e) {
   if (e.key === 'Escape') {
     document.getElementById('search-results').style.display = 'none';
     e.target.blur();
+  }
+  if (e.key === 'Enter') {
+    triggerSearch();
   }
 }
 
@@ -1488,18 +1528,43 @@ document.addEventListener('click', e => {
 // ═══════════════════════════════════════════════════
 //  TAG FILTERING
 // ═══════════════════════════════════════════════════
+function showAllCategories() {
+  // Deactivate all tag pills, activate ALL
+  document.querySelectorAll('.tag-pill').forEach(p => p.classList.remove('active'));
+  document.getElementById('pill-all').classList.add('active');
+  // Show every card
+  document.querySelectorAll('.cat-card').forEach(card => card.classList.remove('hidden'));
+  showLanding();
+  setTimeout(() => document.getElementById('category-index').scrollIntoView({ behavior: 'smooth' }), 80);
+}
+
 function filterByTag(tag) {
-  document.querySelectorAll('.tag-pill').forEach(p => {
+  const allPill = document.getElementById('pill-all');
+  const pills = document.querySelectorAll('.tag-pill:not(.all-pill)');
+
+  // Check if this tag is already active — if so, toggle it off (reset to ALL)
+  const alreadyActive = [...pills].find(p =>
+    p.textContent.trim().toLowerCase() === tag.toLowerCase() && p.classList.contains('active')
+  );
+
+  if (alreadyActive) {
+    showAllCategories();
+    return;
+  }
+
+  // Activate this pill, deactivate others
+  allPill.classList.remove('active');
+  pills.forEach(p => {
     p.classList.toggle('active', p.textContent.trim().toLowerCase() === tag.toLowerCase());
   });
+
+  // Filter cards
   document.querySelectorAll('.cat-card').forEach(card => {
     card.classList.toggle('hidden', !card.dataset.tags.includes(tag.toLowerCase()));
   });
-  // Go back to landing if on a page
+
   showLanding();
-  setTimeout(() => {
-    document.getElementById('category-index').scrollIntoView({ behavior: 'smooth' });
-  }, 80);
+  setTimeout(() => document.getElementById('category-index').scrollIntoView({ behavior: 'smooth' }), 80);
 }
 
 // ═══════════════════════════════════════════════════
