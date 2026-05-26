@@ -581,6 +581,65 @@
     color: var(--muted);
     font-family: 'DM Sans', sans-serif;
   }
+  .city-logo-item {
+    cursor: pointer;
+  }
+
+  /* ── LOGO LIGHTBOX ── */
+  #logo-lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0,0,0,0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    cursor: pointer;
+  }
+  #logo-lightbox.open {
+    display: flex;
+  }
+  #logo-lightbox img {
+    max-width: min(480px, 85vw);
+    max-height: 75vh;
+    object-fit: contain;
+    filter: drop-shadow(0 0 60px rgba(201,169,110,0.35)) drop-shadow(0 0 20px rgba(0,0,0,0.8));
+    animation: lb-in 0.28s cubic-bezier(0.22,1,0.36,1) both;
+    border-radius: 4px;
+  }
+  #logo-lightbox.personal img {
+    filter: drop-shadow(0 0 80px rgba(201,169,110,0.55)) drop-shadow(0 0 30px rgba(201,169,110,0.2));
+  }
+  @keyframes lb-in {
+    from { opacity: 0; transform: scale(0.88); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  #logo-lightbox-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    opacity: 0.9;
+  }
+  #logo-lightbox-close {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    font-size: 1.6rem;
+    color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  #logo-lightbox-close:hover { color: var(--gold); }
 
   /* ── FILTERED HIDDEN ── */
   .cat-card.hidden, .video-card.hidden { display: none !important; }
@@ -923,7 +982,7 @@
 
   <!-- Personal brand logo — featured -->
   <div class="personal-logo-wrap">
-    <div class="personal-logo-badge">
+    <div class="personal-logo-badge" onclick="openLogoLightbox(this.querySelector('img').src,'Lamar Myers','personal')" style="cursor:pointer;" title="Click to view full size">
       <img src="https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/lamar_myers.png" alt="Lamar Myers">
     </div>
     <div class="personal-logo-name">Lamar Myers</div>
@@ -939,31 +998,31 @@
 
   <!-- City logos -->
   <div class="city-logos-track">
-    <div class="city-logo-item">
+    <div class="city-logo-item" onclick="openLogoLightbox('https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/phoenix.png','Phoenix')">
       <img src="https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/phoenix.png" alt="Phoenix">
       <span class="city-logo-label">Phoenix</span>
     </div>
-    <div class="city-logo-item">
+    <div class="city-logo-item" onclick="openLogoLightbox('https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/scottsdale.png','Scottsdale')">
       <img src="https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/scottsdale.png" alt="Scottsdale">
       <span class="city-logo-label">Scottsdale</span>
     </div>
-    <div class="city-logo-item">
+    <div class="city-logo-item" onclick="openLogoLightbox('https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/tucson.png','Tucson')">
       <img src="https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/tucson.png" alt="Tucson">
       <span class="city-logo-label">Tucson</span>
     </div>
-    <div class="city-logo-item">
+    <div class="city-logo-item" onclick="openLogoLightbox('https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/flagstaff.png','Flagstaff')">
       <img src="https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/flagstaff.png" alt="Flagstaff">
       <span class="city-logo-label">Flagstaff</span>
     </div>
-    <div class="city-logo-item">
+    <div class="city-logo-item" onclick="openLogoLightbox('https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/prescott.png','Prescott')">
       <img src="https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/prescott.png" alt="Prescott">
       <span class="city-logo-label">Prescott</span>
     </div>
-    <div class="city-logo-item">
+    <div class="city-logo-item" onclick="openLogoLightbox('https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/sierra_vista.png','Sierra Vista')">
       <img src="https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/sierra_vista.png" alt="Sierra Vista">
       <span class="city-logo-label">Sierra Vista</span>
     </div>
-    <div class="city-logo-item">
+    <div class="city-logo-item" onclick="openLogoLightbox('https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/yuma.png','Yuma')">
       <img src="https://mlgmigguhljsiopctkkj.supabase.co/storage/v1/object/public/MY%20PORTFOLIO/LOGOS/yuma.png" alt="Yuma">
       <span class="city-logo-label">Yuma</span>
     </div>
@@ -974,6 +1033,13 @@
   <div class="footer-logo">METAEARTH</div>
   <div class="footer-copy">Commercials &amp; Drone Imagery Repository · All Rights Reserved</div>
 </footer>
+
+<!-- Logo Lightbox Overlay -->
+<div id="logo-lightbox" onclick="closeLogoLightbox()">
+  <button id="logo-lightbox-close" onclick="closeLogoLightbox()" aria-label="Close">✕</button>
+  <img id="logo-lightbox-img" src="" alt="">
+  <div id="logo-lightbox-label"></div>
+</div>
 
 <script>
 // ═══════════════════════════════════════════════════
@@ -1834,6 +1900,28 @@ function filterSubCat(catId, subCat) {
 // ═══════════════════════════════════════════════════
 buildCategoryGrid();
 buildCategoryPages();
+
+// ═══════════════════════════════════════════════════
+//  LOGO LIGHTBOX
+// ═══════════════════════════════════════════════════
+function openLogoLightbox(src, label, type) {
+  const lb = document.getElementById('logo-lightbox');
+  document.getElementById('logo-lightbox-img').src = src;
+  document.getElementById('logo-lightbox-label').textContent = label;
+  lb.classList.add('open');
+  if (type === 'personal') lb.classList.add('personal');
+  else lb.classList.remove('personal');
+  document.body.style.overflow = 'hidden';
+}
+function closeLogoLightbox() {
+  const lb = document.getElementById('logo-lightbox');
+  lb.classList.remove('open','personal');
+  document.getElementById('logo-lightbox-img').src = '';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLogoLightbox();
+});
 </script>
 </body>
 </html>
